@@ -2,6 +2,24 @@ import React, { createContext, useEffect, useState } from "react";
 import UpvoteList from "../components/UpvoteList";
 import { loadState, saveState } from "../utils";
 
+const defaultUpvotes = {
+  list1: [
+    { id: crypto.randomUUID(), state: true },
+    { id: crypto.randomUUID(), state: false },
+    { id: crypto.randomUUID(), state: false },
+  ],
+  list2: [
+    { id: crypto.randomUUID(), state: false },
+    { id: crypto.randomUUID(), state: true },
+    { id: crypto.randomUUID(), state: false },
+  ],
+  list3: [
+    { id: crypto.randomUUID(), state: false },
+    { id: crypto.randomUUID(), state: false },
+    { id: crypto.randomUUID(), state: true },
+  ],
+};
+
 type UpvoteType = {
   [key: string]: {
     id: string;
@@ -21,7 +39,9 @@ export const UpvoteContext = createContext<UpvoteContextType>({
 });
 
 const UpvoteProvider = () => {
-  const [upvotes, setUpvotes] = useState<UpvoteType>(loadState() || {});
+  const [upvotes, setUpvotes] = useState<UpvoteType>(
+    loadState() || defaultUpvotes
+  );
 
   useEffect(() => {
     saveState(upvotes);
